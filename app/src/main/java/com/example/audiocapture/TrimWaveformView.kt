@@ -22,6 +22,8 @@ class TrimWaveformView @JvmOverloads constructor(
     private var playFraction = -1f
 
     var onSelectionChanged: ((startFraction: Float, endFraction: Float) -> Unit)? = null
+    var onSeekRequest: ((fraction: Float) -> Unit)? = null
+    var dragEnabled = true
 
     private val barPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = ContextCompat.getColor(context, R.color.waveform_active)
@@ -86,13 +88,15 @@ class TrimWaveformView @JvmOverloads constructor(
 
         val startX = selStart * width
         val endX = selEnd * width
-        canvas.drawRect(0f, 0f, startX, height.toFloat(), dimPaint)
-        canvas.drawRect(endX, 0f, width.toFloat(), height.toFloat(), dimPaint)
+        if (dragEnabled) {
+            canvas.drawRect(0f, 0f, startX, height.toFloat(), dimPaint)
+            canvas.drawRect(endX, 0f, width.toFloat(), height.toFloat(), dimPaint)
 
-        canvas.drawLine(startX, 0f, startX, height.toFloat(), handlePaint)
-        canvas.drawLine(endX, 0f, endX, height.toFloat(), handlePaint)
-        canvas.drawCircle(startX, centerY, 14f, handlePaint)
-        canvas.drawCircle(endX, centerY, 14f, handlePaint)
+            canvas.drawLine(startX, 0f, startX, height.toFloat(), handlePaint)
+            canvas.drawLine(endX, 0f, endX, height.toFloat(), handlePaint)
+            canvas.drawCircle(startX, centerY, 14f, handlePaint)
+            canvas.drawCircle(endX, centerY, 14f, handlePaint)
+        }
 
         if (playFraction in 0f..1f) {
             val px = playFraction * width
@@ -104,6 +108,10 @@ class TrimWaveformView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                if (!dragEnabled) {
+                    onSeekRequest?.invoke((event.x / width).coerceIn(0f, 1f))
+                    return true
+                }
                 val startX = selStart * width
                 val endX = selEnd * width
                 dragTarget = when {

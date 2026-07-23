@@ -35,6 +35,11 @@
             android:exported="false"
             android:label="@string/title_trim" />
 
+        <activity
+            android:name=".PlayerActivity"
+            android:exported="false"
+            android:label="@string/title_player" />
+
         <service
             android:name=".AudioCaptureService"
             android:exported="false"

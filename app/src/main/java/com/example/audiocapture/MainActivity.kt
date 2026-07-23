@@ -19,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.audiocapture.databinding.ActivityMainBinding
 import java.io.File
@@ -225,18 +224,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playFile(file: File) {
-        try {
-            val uri: Uri = FileProvider.getUriForFile(
-                this, "${packageName}.fileprovider", file
-            )
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(uri, "audio/*")
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        startActivity(
+            Intent(this, PlayerActivity::class.java).apply {
+                putExtra(PlayerActivity.EXTRA_FILE_PATH, file.absolutePath)
             }
-            startActivity(Intent.createChooser(intent, "播放录音"))
-        } catch (e: Exception) {
-            Toast.makeText(this, "无法播放: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
+        )
     }
 
     private fun showRenameDialog(file: File) {

@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">内部录音机</string>
     <string name="title_trim">✂️ 裁剪音频</string>
+    <string name="title_player">播放录音</string>
+    <string name="player_hint">点击波形任意位置可跳转播放</string>
     <string name="label_format">输出格式：</string>
     <string name="label_list_header">━━ 录音列表 ━━</string>
     <string name="btn_start_record">● 录音</string>
