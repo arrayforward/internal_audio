@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_500">#FF6750A4</color>
+    <color name="purple_700">#FF4F378B</color>
+    <color name="waveform_active">#FF6750A4</color>
+    <color name="waveform_idle">#336750A4</color>
+    <color name="trim_dim">#66000000</color>
+    <color name="trim_handle">#FFD0234F</color>
+    <color name="trim_progress">#FF1E88E5</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

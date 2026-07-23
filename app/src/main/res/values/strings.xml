@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">内部录音机</string>
+    <string name="title_trim">✂️ 裁剪音频</string>
+    <string name="label_format">输出格式：</string>
+    <string name="label_list_header">━━ 录音列表 ━━</string>
+    <string name="btn_start_record">● 录音</string>
+    <string name="btn_save_copy">保存为副本</string>
+    <string name="btn_overwrite">覆盖保存</string>
+    <string name="btn_reset">重置选区</string>
+    <string name="btn_audition">试听选区</string>
+    <string name="empty_recordings">暂无录音文件</string>
+    <string name="rename_hint">请输入新文件名</string>
+    <string name="play_position_default">当前播放位置: 00:00:00</string>
+    <string name="action_rename">重命名</string>
+    <string name="action_play">播放</string>
+    <string name="action_trim">剪辑</string>
+    <string name="action_delete">删除</string>
+    <string name="action_close">关闭</string>
+</resources>
