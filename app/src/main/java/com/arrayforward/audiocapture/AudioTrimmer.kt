@@ -1,4 +1,4 @@
-package com.example.audiocapture
+package com.arrayforward.audiocapture
 
 import android.media.MediaCodec
 import android.media.MediaExtractor

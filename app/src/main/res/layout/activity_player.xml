@@ -29,7 +29,7 @@
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
     </LinearLayout>
 
-    <com.example.audiocapture.TrimWaveformView
+    <com.arrayforward.audiocapture.TrimWaveformView
         android:id="@+id/playerWaveform"
         android:layout_width="match_parent"
         android:layout_height="180dp"

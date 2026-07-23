@@ -1,4 +1,4 @@
-package com.example.audiocapture
+package com.arrayforward.audiocapture
 
 object AudioParams {
     const val SAMPLE_RATE = 48000

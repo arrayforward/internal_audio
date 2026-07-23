@@ -1,4 +1,4 @@
-package com.example.audiocapture
+package com.arrayforward.audiocapture
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.audiocapture.databinding.ActivityTrimBinding
+import com.arrayforward.audiocapture.databinding.ActivityTrimBinding
 import java.io.File
 import kotlin.concurrent.thread
 

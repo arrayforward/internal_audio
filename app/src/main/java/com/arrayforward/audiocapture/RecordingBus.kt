@@ -1,4 +1,4 @@
-package com.example.audiocapture
+package com.arrayforward.audiocapture
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

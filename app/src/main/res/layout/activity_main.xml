@@ -12,7 +12,7 @@
         android:title="@string/app_name"
         android:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge" />
 
-    <com.example.audiocapture.WaveformView
+    <com.arrayforward.audiocapture.WaveformView
         android:id="@+id/waveform"
         android:layout_width="match_parent"
         android:layout_height="120dp"

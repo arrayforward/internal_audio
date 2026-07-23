@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.audiocapture'
+    namespace 'com.arrayforward.audiocapture'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.audiocapture"
+        applicationId "com.arrayforward.audiocapture"
         minSdk 29
         targetSdk 29
         versionCode 1
@@ -36,6 +36,12 @@ android {
     lint {
         disable += 'ExpiredTargetSdkVersion'
         abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "internal_audio-v${defaultConfig.versionName}-${variant.name}.apk"
+        }
     }
 }
 

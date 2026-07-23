@@ -1,4 +1,4 @@
-package com.example.audiocapture
+package com.arrayforward.audiocapture
 
 import android.annotation.SuppressLint
 import android.app.Notification
@@ -25,8 +25,8 @@ import kotlin.math.sqrt
 class AudioCaptureService : Service() {
 
     companion object {
-        const val ACTION_START = "com.example.audiocapture.action.START"
-        const val ACTION_STOP = "com.example.audiocapture.action.STOP"
+        const val ACTION_START = "com.arrayforward.audiocapture.action.START"
+        const val ACTION_STOP = "com.arrayforward.audiocapture.action.STOP"
         const val EXTRA_RESULT_CODE = "extra_result_code"
         const val EXTRA_RESULT_DATA = "extra_result_data"
         const val EXTRA_FORMAT = "extra_format"

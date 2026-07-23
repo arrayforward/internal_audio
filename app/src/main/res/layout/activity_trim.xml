@@ -50,7 +50,7 @@
         android:layout_marginTop="16dp"
         android:textSize="14sp" />
 
-    <com.example.audiocapture.TrimWaveformView
+    <com.arrayforward.audiocapture.TrimWaveformView
         android:id="@+id/trimWaveform"
         android:layout_width="match_parent"
         android:layout_height="160dp"

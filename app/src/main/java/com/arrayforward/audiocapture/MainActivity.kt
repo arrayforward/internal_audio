@@ -1,4 +1,4 @@
-package com.example.audiocapture
+package com.arrayforward.audiocapture
 
 import android.Manifest
 import android.app.Activity
@@ -20,7 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.audiocapture.databinding.ActivityMainBinding
+import com.arrayforward.audiocapture.databinding.ActivityMainBinding
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
