@@ -120,15 +120,44 @@ class MainActivity : AppCompatActivity() {
         val missing = needed.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }
-        if (missing.isEmpty()) {
-            if (launchProjectionWhenGranted) requestProjection()
-        } else {
-            if (launchProjectionWhenGranted) {
-                permissionLauncher.launch(missing.toTypedArray())
+        if (missing.isNotEmpty()) {
+            permissionLauncher.launch(missing.toTypedArray())
+            return
+        }
+        if (launchProjectionWhenGranted) {
+            if (needsAllFilesAccess()) {
+                showAllFilesAccessDialog()
             } else {
-                permissionLauncher.launch(missing.toTypedArray())
+                requestProjection()
             }
         }
+    }
+
+    private fun needsAllFilesAccess(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+            !android.os.Environment.isExternalStorageManager()
+    }
+
+    private fun showAllFilesAccessDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("需要文件访问权限")
+            .setMessage("保存录音到 Music/audio 目录需要“所有文件访问”权限，请在系统设置中开启后返回。")
+            .setNegativeButton("取消", null)
+            .setPositiveButton("去开启") { _, _ ->
+                try {
+                    startActivity(
+                        Intent(
+                            android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                            Uri.parse("package:$packageName")
+                        )
+                    )
+                } catch (e: Exception) {
+                    startActivity(
+                        Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                    )
+                }
+            }
+            .show()
     }
 
     private fun requestProjection() {

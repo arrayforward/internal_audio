@@ -164,6 +164,7 @@ class AudioCaptureService : Service() {
             RecordingBus.onStarted()
             readLoop(minBuffer * 2)
         } catch (e: Exception) {
+            android.util.Log.e("AudioCaptureService", "startCapture failed", e)
             RecordingBus.onError("启动录制失败: ${e.message}")
             cleanup()
             stopSelf()

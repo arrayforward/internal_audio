@@ -7,12 +7,22 @@ import kotlin.random.Random
 object FileUtils {
 
     val audioDir: File
-        get() = File(Environment.getExternalStorageDirectory(), "audio")
+        get() = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+            "audio"
+        )
 
     fun ensureAudioDir(): File {
         val dir = audioDir
-        if (!dir.exists()) dir.mkdirs()
+        if (!dir.exists() && !dir.mkdirs() && !dir.exists()) {
+            throw java.io.IOException("无法创建目录 ${dir.absolutePath}")
+        }
         return dir
+    }
+
+    fun audioDirOrNull(): File? {
+        val dir = audioDir
+        return if (dir.exists() || dir.mkdirs()) dir else null
     }
 
     fun randomString(length: Int = 6): String {
@@ -41,7 +51,7 @@ object FileUtils {
     }
 
     fun listRecordings(): List<File> {
-        val dir = ensureAudioDir()
+        val dir = audioDirOrNull() ?: return emptyList()
         return dir.listFiles { f ->
             f.isFile && f.extension.lowercase() in listOf("wav", "m4a", "mp3")
         }?.sortedByDescending { it.lastModified() } ?: emptyList()

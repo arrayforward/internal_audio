@@ -17,7 +17,7 @@ Android 10 引入了 `AudioPlaybackCapture` API，允许应用捕获系统或其
 - 一键开始/停止录制内部音频。
 - **支持三种保存格式**：无损 WAV、高质量 M4A (AAC)、通用 MP3。
 - **内置音频剪辑器**：波形可视化裁剪录音头尾片段。
-- 自动生成随机文件名，保存至 `/sdcard/audio/`。
+- 自动生成随机文件名，保存至 `/sdcard/Music/audio/`。
 - 支持用户重命名、播放、删除已保存文件。
 - 实时波形反馈与计时。
 
@@ -32,7 +32,7 @@ Android 10 引入了 `AudioPlaybackCapture` API，允许应用捕获系统或其
 | 权限管理 | 动态申请 `RECORD_AUDIO`、存储权限，及 `MediaProjection` 系统授权 |
 | 录音控制 | 开始/停止，计时器（HH:MM:SS），录制状态通知栏常驻 |
 | 文件命名 | 自动命名：`recording_随机6位.扩展名`（扩展名随格式变化） |
-| 文件存储 | 根目录 `/sdcard/audio/`，不存在则自动创建 |
+| 文件存储 | 根目录 `/sdcard/Music/audio/`，不存在则自动创建 |
 | 文件管理 | 列表展示所有音频文件，支持 **重命名**、**播放**、**剪辑**、**删除** |
 | 界面反馈 | 实时音量波形动画，操作 Toast 提示，重命名对话框 |
 
@@ -116,7 +116,7 @@ graph TD
     L --> M[实时更新波形与计时器]
     M --> N[用户点击“停止录音”]
     N --> O[停止录制，生成随机文件名]
-    O --> P{/sdcard/audio/ 是否存在?}
+    O --> P{/sdcard/Music/audio/ 是否存在?}
     P -->|不存在| Q[创建目录]
     P -->|存在| R[编码并写入文件]
     Q --> R
@@ -131,7 +131,7 @@ graph TD
     B -->|WAV| C[直接写 RIFF 头 + PCM 数据]
     B -->|M4A| D[MediaCodec AAC 编码 + MediaMuxer 封装]
     B -->|MP3| E[LAME 编码 PCM 为 MP3 帧]
-    C --> F[保存到 /sdcard/audio/]
+    C --> F[保存到 /sdcard/Music/audio/]
     D --> F
     E --> F
     F --> G[通知列表刷新]
@@ -153,8 +153,8 @@ graph TD
 | `POST_NOTIFICATIONS` | 录制状态通知（API 33+） | 动态申请 |
 
 ### 5.2 兼容性策略
-- **Android 10（目标平台）**：使用 `Environment.getExternalStorageDirectory()` + 传统 File API，Manifest 声明 `android:requestLegacyExternalStorage="true"`，`targetSdkVersion 29` 可完整保留传统存储行为。
-- **Android 11+**：若需覆盖更高版本，推荐改用 MediaStore API 写入 `Music/` 子目录，或引导用户开启 `MANAGE_EXTERNAL_STORAGE`。
+- **Android 10（目标平台）**：使用 `Environment.getExternalStoragePublicDirectory(DIRECTORY_MUSIC)` + 传统 File API，Manifest 声明 `android:requestLegacyExternalStorage="true"`，`targetSdkVersion 29` 可完整保留传统存储行为。
+- **Android 11+ / HarmonyOS**：系统强制执行分区存储，需申请 `MANAGE_EXTERNAL_STORAGE`（所有文件访问权限），点击录音时若未授权则弹窗引导用户前往系统设置开启。
 
 ### 5.3 权限拒绝处理
 - `RECORD_AUDIO` 被拒：提示“无法录音，请前往设置开启权限”，录音按钮禁用。
@@ -236,7 +236,7 @@ class WavWriter(file: File, sampleRate: Int = 44100) {
 
 ## 7. 文件存储与命名规则
 
-- **存储根目录**：`Environment.getExternalStorageDirectory().getAbsolutePath() + "/audio/"`
+- **存储根目录**：`Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "/audio/"`（即 `/sdcard/Music/audio/`）
 - **目录创建**：首次保存时调用 `File.mkdirs()`
 - **自动文件名**：`recording_` + 6 位随机（a-z0-9）+ `.` + 扩展名（根据所选格式）
   - 示例：`recording_x7k9m2.wav`、`recording_a3f9k7.m4a`、`recording_b4d2x8.mp3`
@@ -303,7 +303,7 @@ graph TD
     K --> N[按格式执行裁剪引擎]
     M --> N
     N --> O{裁剪成功?}
-    O -->|是| P[保存到 /sdcard/audio/，刷新列表]
+    O -->|是| P[保存到 /sdcard/Music/audio/，刷新列表]
     O -->|否| Q[提示失败原因，保留原文件]
 ```
 
@@ -339,7 +339,7 @@ fun trimAudio(sourceFile: File, startMs: Long, endMs: Long, format: FormatType):
 - **保存为副本**：`trimmed_` + 原文件名主体 + `_` + 随机 6 位 + 原扩展名。
   - 示例：`recording_a3f9k7.wav` → `trimmed_recording_a3f9k7_x9k2p.wav`
 - **覆盖保存**：先写临时文件，写入成功后再替换原文件，防止写入失败导致原文件丢失。
-- 所有剪辑生成的文件依旧统一保存在 `/sdcard/audio/` 目录下。
+- 所有剪辑生成的文件依旧统一保存在 `/sdcard/Music/audio/` 目录下。
 
 ### 8.7 剪辑界面状态转换图
 
