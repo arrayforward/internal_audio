@@ -120,28 +120,40 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReset"
             style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/btn_reset"
-            app:icon="@drawable/ic_refresh" />
+            android:textSize="12sp"
+            app:icon="@drawable/ic_refresh"
+            app:iconPadding="4dp"
+            app:iconSize="16dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAudition"
             style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
             android:text="@string/btn_audition"
-            app:icon="@drawable/ic_play" />
+            android:textSize="12sp"
+            app:icon="@drawable/ic_play"
+            app:iconPadding="4dp"
+            app:iconSize="16dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPesq"
             style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
             android:text="@string/btn_pesq"
-            app:icon="@drawable/ic_music_note" />
+            android:textSize="12sp"
+            app:icon="@drawable/ic_music_note"
+            app:iconPadding="4dp"
+            app:iconSize="16dp" />
     </LinearLayout>
 
 </LinearLayout>
