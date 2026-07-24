@@ -133,6 +133,15 @@
             android:layout_marginStart="16dp"
             android:text="@string/btn_audition"
             app:icon="@drawable/ic_play" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPesq"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/btn_pesq"
+            app:icon="@drawable/ic_music_note" />
     </LinearLayout>
 
 </LinearLayout>

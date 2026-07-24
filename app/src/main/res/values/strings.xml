@@ -11,6 +11,7 @@
     <string name="btn_overwrite">覆盖保存</string>
     <string name="btn_reset">重置选区</string>
     <string name="btn_audition">试听选区</string>
+    <string name="btn_pesq">PESQ 分析</string>
     <string name="empty_recordings">暂无录音文件</string>
     <string name="rename_hint">请输入新文件名</string>
     <string name="play_position_default">当前播放位置: 00:00:00</string>

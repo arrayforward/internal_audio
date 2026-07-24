@@ -69,6 +69,7 @@ class TrimActivity : AppCompatActivity() {
         binding.btnPlayPause.setOnClickListener { togglePreview() }
         binding.btnReset.setOnClickListener { resetSelection() }
         binding.btnAudition.setOnClickListener { auditionSelection() }
+        binding.btnPesq.setOnClickListener { runPesqAnalysis() }
         binding.btnSaveCopy.setOnClickListener { saveAsCopy() }
         binding.btnOverwrite.setOnClickListener { confirmOverwrite() }
 
@@ -271,6 +272,48 @@ class TrimActivity : AppCompatActivity() {
         binding.btnOverwrite.isEnabled = enabled
         binding.btnReset.isEnabled = enabled
         binding.btnAudition.isEnabled = enabled
+        binding.btnPesq.isEnabled = enabled
+    }
+
+    private fun runPesqAnalysis() {
+        pausePreview()
+        setButtonsEnabled(false)
+        binding.btnPesq.text = "分析中…"
+        thread {
+            try {
+                val result = PesqAnalyzer.analyze(sourceFile)
+                runOnUiThread {
+                    setButtonsEnabled(true)
+                    binding.btnPesq.text = getString(R.string.btn_pesq)
+                    showPesqResult(result)
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    setButtonsEnabled(true)
+                    binding.btnPesq.text = getString(R.string.btn_pesq)
+                    Toast.makeText(
+                        this, "分析失败: ${e.message}", Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun showPesqResult(result: PesqAnalyzer.Result) {
+        val message = buildString {
+            append("PESQ 评分：${result.score} / 4.5（${result.rating}）\n\n")
+            append("有效电平：${result.activeLevelDb} dBFS\n")
+            append("估算信噪比：${result.snrDb} dB\n")
+            append("削波比例：${result.clippingPercent}%\n")
+            append("静音比例：${result.silencePercent}%\n\n")
+            append("说明：标准 PESQ（ITU-T P.862）需要原始参考语音做对比，")
+            append("本结果为非侵入式估算，基于电平、信噪比、削波、静音等指标映射到 MOS 分值，仅供参考。")
+        }
+        AlertDialog.Builder(this)
+            .setTitle("📊 PESQ 语音质量分析")
+            .setMessage(message)
+            .setPositiveButton("知道了", null)
+            .show()
     }
 
     override fun onDestroy() {
