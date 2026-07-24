@@ -14,6 +14,7 @@
 - ✂️ **音频剪辑**：波形拖拽裁剪头尾片段，支持试听选区、保存副本 / 覆盖保存
   - WAV：字节级裁剪，零重编码、零损耗
   - M4A：`MediaExtractor` + `MediaMuxer` 帧级裁剪
+- 📊 **PESQ 质量分析**：剪辑页一键评估语音质量（电平/信噪比/削波/静音 → MOS 1.0~4.5 分）
 - 📝 **文件管理**：重命名（扩展名锁定）、删除（二次确认）
 - 🌙 **Material 3 主题**：深色/浅色自动适配，实时录音波形动画 + 计时器
 
@@ -53,6 +54,11 @@
 3. 点 **🔊 试听选区** 确认效果，**🔄 重置选区** 可恢复全选
 4. 右上角选择 **保存为副本**（推荐，保留原文件）或 **覆盖保存**（替换原文件，有二次确认）
 
+### PESQ 质量分析
+1. 在剪辑页点击 **PESQ 分析** 按钮，后台自动解码评估
+2. 弹窗显示评分（1.0~4.5）与等级（优秀/良好/一般/较差），以及有效电平、估算信噪比、削波比例、静音比例
+3. 说明：标准 PESQ（ITU-T P.862）需原始参考语音，本功能为非侵入式估算，结果仅供参考
+
 ### 文件管理
 - ✏️ **重命名**：只能改主文件名，扩展名锁定
 - 🗑️ **删除**：二次确认后从 `/sdcard/Music/audio/` 移除，不可恢复
@@ -89,8 +95,9 @@ app/src/main/java/com/arrayforward/audiocapture/
 ├── WavEncoder.kt            # WAV 编码（流式写入 + RIFF 头回填）
 ├── AacEncoder.kt            # AAC 编码（MediaCodec + MediaMuxer → .m4a）
 ├── PlayerActivity.kt        # 应用内播放器（波形 + 进度线 + 点按跳转）
-├── TrimActivity.kt          # 剪辑界面（选区、试听、副本/覆盖保存）
-├── AudioTrimmer.kt          # 裁剪引擎（WAV 字节级 / M4A 帧级 / 波形峰值提取）
+├── TrimActivity.kt          # 剪辑界面（选区、试听、副本/覆盖保存、PESQ 分析）
+├── AudioTrimmer.kt          # 裁剪引擎（WAV 字节级 / M4A 帧级 / 波形峰值提取 / PCM 解码）
+├── PesqAnalyzer.kt          # PESQ 风格语音质量评估（非侵入式 MOS 估算）
 ├── TrimWaveformView.kt      # 波形 View（剪辑选区手柄 / 播放只读两种模式）
 ├── WaveformView.kt          # 录音实时波形 View
 ├── RecordingBus.kt          # 录音状态/振幅事件总线（LiveData）
